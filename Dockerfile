@@ -61,7 +61,14 @@ RUN set -ex && \
     tar -xzf pdflib.tar.gz -C /usr/local/pdflib && \
     printf "/usr/local/pdflib/PDFlib-8.0.3-Linux-x86_64-C-C++/bind/c" | pecl install pdflib
 
-COPY extensions/ /usr/local/lib/php/extensions/
+# Install Ioncube Loader
+RUN curl -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -o ioncube.tar.gz \
+    && tar -xvzf ioncube.tar.gz \
+    && mv ioncube/ioncube_loader_lin_5.4.so /usr/local/lib/php/extensions/no-debug-non-zts-20100525/ \
+    && rm -rf ioncube.tar.gz ioncube \
+    && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/ioncube_loader_lin_5.4.so" > /usr/local/etc/php/conf.d/docker-php-ext-ioncube.ini
+
+# COPY extensions/ /usr/local/lib/php/extensions/
 COPY conf/php.ini /usr/local/etc/php/
 COPY conf.d/ /usr/local/etc/php/conf.d/
 COPY conf/httpd.conf /etc/apache2/sites-available/000-default.conf
