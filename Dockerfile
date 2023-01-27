@@ -1,6 +1,6 @@
 FROM php:5.4-apache
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --force-yes --no-install-recommends \
     libcurl4-openssl-dev \
     libedit-dev \
     libsqlite3-dev \
@@ -60,6 +60,13 @@ RUN set -ex && \
     mkdir /usr/local/pdflib && \
     tar -xzf pdflib.tar.gz -C /usr/local/pdflib && \
     printf "/usr/local/pdflib/PDFlib-8.0.3-Linux-x86_64-C-C++/bind/c" | pecl install pdflib
+
+# Install Ioncube Loader
+RUN curl -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -o ioncube.tar.gz \
+    && tar -xvzf ioncube.tar.gz \
+    && mv ioncube/ioncube_loader_lin_5.4.so /usr/local/lib/php/extensions/no-debug-non-zts-20100525/ \
+    && rm -rf ioncube.tar.gz ioncube \
+    && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/ioncube_loader_lin_5.4.so" > /usr/local/etc/php/conf.d/docker-php-ext-ioncube.ini
 
 COPY conf/php.ini /usr/local/etc/php/
 COPY conf.d/ /usr/local/etc/php/conf.d/
