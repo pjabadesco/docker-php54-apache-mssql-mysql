@@ -68,6 +68,8 @@ RUN curl -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x
     && rm -rf ioncube.tar.gz ioncube \
     && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/ioncube_loader_lin_5.4.so" > /usr/local/etc/php/conf.d/docker-php-ext-ioncube.ini
 
+RUN pear install -a Mail
+
 # COPY extensions/ /usr/local/lib/php/extensions/
 COPY conf/php.ini /usr/local/etc/php/
 # COPY conf.d/ /usr/local/etc/php/conf.d/
