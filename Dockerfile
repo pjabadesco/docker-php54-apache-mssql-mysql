@@ -68,9 +68,9 @@ RUN curl -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x
     && rm -rf ioncube.tar.gz ioncube \
     && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/ioncube_loader_lin_5.4.so" > /usr/local/etc/php/conf.d/docker-php-ext-ioncube.ini
 
-RUN pear install Mail Mail_Mime Net_SMTP
 # RUN pear channel-update pear.php.net 
-# RUN pear upgrade --force --alldeps http://pear.php.net/get/PEAR-1.10.1 && \
+RUN pear upgrade --force --alldeps http://pear.php.net/get/PEAR-1.10.1
+RUN pear install Mail Mail_Mime Net_SMTP
 #     pear clear-cache && \
 #     pear update-channels && \
 #     pear upgrade && \
